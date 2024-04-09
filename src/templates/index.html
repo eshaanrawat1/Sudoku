@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>SudoFast</title>
+
+        <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+        
+        <script src="{{ url_for('static', filename='script.js') }}"></script>
+        <script src="{{ url_for('static', filename='stopwatch.js') }}"></script>
+    </head>
+
+    <body>
+        <h1>SudoFast</h1>
+        <hr>
+
+        <div class="trackers">
+            <button class="trackers", id="mistakes">Mistakes:<span id="mistakesValue">0</span></button>
+            <button class="trackers", id="stopwatch">00:00:00</button>
+            <button class="trackers" id="score">Score:<span id="scoreValue">0</span></button>
+        </div>
+
+        <div id="sudoku-container"></div>
+
+        <div class="buttons">
+            <button class="buttons", id="solve">Solve</button>
+            <button class="buttons", id="new">New Board</button>
+            <button class="buttons", id="reset">Reset</button>
+        </div>
+        <br>
+
+    </body>
+
+</html>
