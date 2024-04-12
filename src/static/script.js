@@ -156,7 +156,7 @@ function resetBoard() {
 // Function that keeps track of the user's score
 let prev;
 async function trackScore(userInput, row, col) {
-    let num = parseInt(userInput);
+    let num = (row, col);
     try {
         const response = await fetch('/check_valid', {
             method: 'POST',
@@ -186,7 +186,7 @@ async function trackScore(userInput, row, col) {
         }
         else {
             // Does not decrease score if at 0
-            if (currentScore != 0 && num != prev) {
+            if (currentScore != 0 && num != prev && userInput != '') {
                 newScore = currentScore - 50;     
             }
             
