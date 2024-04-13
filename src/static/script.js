@@ -154,9 +154,10 @@ function resetBoard() {
 
 
 // Function that keeps track of the user's score
-let prev;
+let num, prev;
+let check = false;
 async function trackScore(userInput, row, col) {
-    let num = (row, col);
+    num = row * 9 + col;
     try {
         const response = await fetch('/check_valid', {
             method: 'POST',
@@ -174,28 +175,40 @@ async function trackScore(userInput, row, col) {
         const currentMistakes = parseInt(mistakesSpan.textContent);
         let mistakesValue = currentMistakes;
 
-        // Increase score if input is valid, else decrease
         const data = await response.json();
-        if (data.is_valid && userInput != '' && num != prev) {
-            newScore = currentScore + 50;
-            prev = num;
-        }
-        // Change nothing if guess is the same as previous guess
-        else if (num == prev) {
-            newScore = currentScore;
-        }
-        else {
-            // Does not decrease score if at 0
-            if (currentScore != 0 && num != prev && userInput != '') {
-                newScore = currentScore - 50;     
-            }
-            
-            if (userInput != '' && num != prev) {
-                mistakesValue += 1;
-            }   
-            prev = num; 
-        }
 
+        // If not a deletion character
+        if (userInput != '') {
+            // Valid guess not spammed in the same cell 
+            if (data.is_valid && num != prev) {
+                newScore = currentScore + 50; 
+                check = true;
+            } 
+            // Valid guess spammed in the same cell (no points)
+            else if (data.is_valid && num == prev) {
+                newScore = currentScore; 
+            } 
+            // Invalid guess, increase mistake counter
+            else {
+                if (!data.is_valid && num != prev) {
+                    newScore = Math.max(0, currentScore - 50); 
+                    mistakesValue += 1;
+                }
+                check = false;      
+            }
+            prev = num; 
+        } 
+        else {
+            // Deleting valid guess reduces points
+            if (check) {
+                newScore = Math.max(0, currentScore - 50);
+            }
+            else {
+                newScore = currentScore;
+            }
+            prev = ''; 
+        }
+               
         scoreSpan.textContent = newScore;   
         mistakesSpan.textContent = mistakesValue;
     } 
