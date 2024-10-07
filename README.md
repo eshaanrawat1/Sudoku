@@ -9,7 +9,7 @@ Solver for valid sudoku puzzles using backtracking in Python. Employs optimizati
 ## Installation
 
 ### Virtual Environment Creation
-`python -m venv venv`
+`python -m venv venv`  
 `source venv/bin/activate`
 
 ### Install Packages
